@@ -6,6 +6,10 @@ export function ChangeContext(arg1) {
   return window['go']['main']['App']['ChangeContext'](arg1);
 }
 
+export function GetDeployment(arg1, arg2) {
+  return window['go']['main']['App']['GetDeployment'](arg1, arg2);
+}
+
 export function GetKubernetesContext() {
   return window['go']['main']['App']['GetKubernetesContext']();
 }

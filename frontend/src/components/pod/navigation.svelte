@@ -1,11 +1,10 @@
 <script>
-  import { object_without_properties } from "svelte/internal";
-
 	export let currentView = 0;
 
 	let active = {
 		overview: true,
 		logs: false,
+		deployment: false,
 	}
 
 	const setCurrentView = (i) => {
@@ -13,7 +12,6 @@
 		Object.keys(active).forEach((k) => active[k] = false)
 		active[Object.keys(active)[i]] = true
 	}
-	
 
 </script>
 <div class="pod-navigation">
@@ -24,6 +22,10 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div class:active={active.logs} on:click={() => setCurrentView(1)} class="page">
 		Logs
+	</div>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div class:active={active.deployment} on:click={() => setCurrentView(2)} class="page">
+		Deployment
 	</div>
 </div>
 <style scoped>

@@ -2,6 +2,7 @@ package pod
 
 import (
 	"context"
+	"fmt"
 	"wheelie/clientset"
 
 	v1 "k8s.io/api/core/v1"
@@ -9,9 +10,10 @@ import (
 )
 
 type PodListMetadata struct {
-	ShortName string
-	LongName  string
-	Status    v1.PodPhase
+	ShortName   string
+	LongName    string
+	Status      v1.PodPhase
+	ReleaseName string
 }
 
 func GetPods(ctx context.Context, namespace string) []PodListMetadata {
@@ -26,7 +28,13 @@ func GetPods(ctx context.Context, namespace string) []PodListMetadata {
 	formattedPods := make([]PodListMetadata, len(pods.Items))
 
 	for _, pod := range pods.Items {
-		formattedPods = append(formattedPods, PodListMetadata{pod.Spec.Containers[0].Name, pod.Name, pod.Status.Phase})
+		fmt.Print(pod.Labels["app.kubernetes.io/instance"])
+		formattedPods = append(formattedPods, PodListMetadata{
+			pod.Spec.Containers[0].Name,
+			pod.Name,
+			pod.Status.Phase,
+			pod.Labels["app.kubernetes.io/instance"],
+		})
 	}
 
 	return formattedPods

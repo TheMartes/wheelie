@@ -6,6 +6,8 @@ import {pod} from '../models';
 
 export function ChangeContext(arg1:string):Promise<void>;
 
+export function GetDeployment(arg1:string,arg2:string):Promise<string>;
+
 export function GetKubernetesContext():Promise<kubernetesconfig.KubeContexts>;
 
 export function GetLogsFromPod(arg1:string,arg2:string,arg3:number):Promise<string>;

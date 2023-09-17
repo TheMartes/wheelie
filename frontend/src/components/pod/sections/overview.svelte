@@ -4,7 +4,7 @@
 	import { calculateUptime } from "../../../services/time.service";
     import ContentCard from "../../utils/content-card.svelte";
 	import Lock from "../../utils/icons/lock.svelte"
-  import Refresh from "../../utils/icons/refresh.svelte";
+	import Refresh from "../../utils/icons/refresh.svelte";
 
 	export let namespace;
 	export let pod;
@@ -43,7 +43,7 @@
 		<ContentCard width="100%" cardTitle="Pod Meta" cardDescription="Basic pod metadata.">
 			<div slot="toolbar" class="pod-info">
 				<div class="refresh-rate-container">
-					<Refresh></Refresh>
+					<Refresh fill="#000000"></Refresh>
 					<select bind:this={refreshRate} name="refreshRate">
 						<option value="5000" selected>5 seconds</option>
 						<option value="30000">30 seconds</option>
@@ -62,6 +62,10 @@
 						<div class="prop">
 							<div><strong>Namespace</strong></div>
 							<div>{podInfo.Namespace}</div>
+						</div>
+						<div class="prop">
+							<div><strong>Deployment Name</strong></div>
+							<div>{podInfo.ReleaseName}</div>
 						</div>
 						<div class="prop">
 							<div><strong>Status</strong></div>
@@ -100,8 +104,12 @@
 				</div>
 			</ContentCard>
 			{/if}
-			<ContentCard width="calc(50% - 10px)" cardTitle="Deployment" cardDescription="View and edit pod deployment">
-				<div slot="content" class="content"></div>
+			<ContentCard width="calc(50% - 10px)" cardTitle="Port Forwarding" cardDescription="">
+				<div slot="content" class="content">
+					<div class="wip-message">
+						Work in progress.
+					</div>
+				</div>
 			</ContentCard>
 		</div>	
 		{/if}
@@ -201,5 +209,14 @@
 
   .refresh-rate-container > select {
 	margin-left: 10px;
+  }
+
+  .wip-message {
+	  display: flex;
+	  justify-content: center;
+	  padding: 20px 0;
+	  font-size: 2rem;
+	  font-weight: 100;
+	  color: rgba(0, 0, 0, 0.5)
   }
 </style>

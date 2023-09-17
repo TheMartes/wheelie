@@ -26,12 +26,15 @@
   }
 
   /** @param {string} pod */
-  const selectActivePod = (pod) => {
+  const selectActivePod = (pod, releaseName) => {
 	if (selectedPod !== null) {
 		podMap[selectedPod].$set({active: false})
 	}
 
+	console.log(releaseName)
+
 	selectedPod = pod
+	selectedReleaseName = releaseName
 	podMap[selectedPod].$set({active: true})
   }
 
@@ -40,6 +43,7 @@
    */
   export let selectedPod = null
   export let selectedNamespace = "";
+  export let selectedReleaseName = "";
   $: loadPods(selectedNamespace)
   $: {
 	if (selectedNamespace === "") {
@@ -90,7 +94,7 @@
 			text={pod.ShortName}
 			podID={pod.LongName}
 			status={pod.Status}
-			on:switchActivePod={(e) => selectActivePod(e.detail.podID)} 
+			on:switchActivePod={(e) => selectActivePod(e.detail.podID, pod.ReleaseName)}
 		/>
       {/each}
 	{:else}

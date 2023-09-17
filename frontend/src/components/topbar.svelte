@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
   import Bug from "./utils/icons/bug.svelte";
-import ContextSelect from "./utils/overlay/context-select.svelte";
+  import ContextSelect from "./utils/overlay/context-select.svelte";
   import Close from "./utils/window/controls/close.svelte";
   import Maximise from "./utils/window/controls/maximise.svelte";
   import Minimise from "./utils/window/controls/minimise.svelte";
@@ -85,10 +85,12 @@ import ContextSelect from "./utils/overlay/context-select.svelte";
 
 	.middle-sector {
 		display: flex;
+		align-items: center;
 	}
 
 	.bug-report {
 		margin-left: 10px;
 		cursor: pointer;
+		margin-top: 2px; /** Svg is kinda broken */
 	}
 </style>

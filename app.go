@@ -43,3 +43,7 @@ func (a *App) GetPodMetadata(podName string, podNamespace string) pod.PodInfo {
 func (a *App) GetKubernetesContext() kubernetesconfig.KubeContexts {
 	return kubernetesconfig.GetKubeContexts()
 }
+
+func (a *App) GetDeployment(podName string, podNamespace string) string {
+	return pod.GetDeployment(a.ctx, podName, podNamespace)
+}

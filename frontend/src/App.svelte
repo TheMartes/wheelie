@@ -7,36 +7,20 @@
   import Logs from './components/pod/sections/logs.svelte';
   import GuidingArrow from './components/utils/window/guiding-arrow.svelte';
   import { fade } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import Deployment from './components/pod/sections/deployment.svelte';
 
   // Global settings
   export let selectedPod;
   export let selectedNamespace;
   export let selectedContext = null;
-  export let currentTab;
-  const views = [Overview, Logs]
+  export let selectedReleaseName;
+  const views = [Overview, Logs, Deployment]
   let viewportComponent = null
-	let currentView = 0
+  let currentView = 0
 
-  let component = Overview;
-
-  $: switchComponent(currentTab)
-
-  /** @param {string} currentTab */
-  const switchComponent = (currentTab) => {
-    switch (currentTab) {
-      case "overview":
-        component = Overview
-      case "logs":
-        component = Logs
-      default:
-        component = Overview
-    }
+  function updateViewportComponent() {
+      viewportComponent = views[currentView]
   }
-
-	function updateViewportComponent() {
-		viewportComponent = views[currentView]
-	}
 
   updateViewportComponent()
 
@@ -46,14 +30,14 @@
     selectedPod = null;
   }
 
-  const isMacOS = navigator.userAgent.indexOf("Mac")!= -1;
+  const isMacOS = navigator.userAgent.indexOf("Mac")!== -1;
 </script>
 
 <main class="root-container">
   <Topbar on:switchContext={(e) => onSwitchContext(e)} bind:selectedContext isMacOS={isMacOS} />
   {#if selectedContext}
   <div class="content-area">
-    <Sidebar bind:selectedNamespace bind:selectedPod />
+    <Sidebar bind:selectedNamespace bind:selectedPod bind:selectedReleaseName/>
 
     <Container>
       {#if !selectedPod}
@@ -63,7 +47,7 @@
         </div>
         {:else}
         <Navigation bind:currentView />
-        {#if viewportComponent == views[currentView]}
+        {#if viewportComponent === views[currentView]}
           <div id="viewport" on:outroend={updateViewportComponent} transition:fade={{ duration: 150 }}>
             <svelte:component this={viewportComponent} pod={selectedPod} namespace={selectedNamespace}></svelte:component>
           </div>

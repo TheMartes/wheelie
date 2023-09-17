@@ -17,6 +17,7 @@ type PodInfo struct {
 	Status       corev1.PodPhase
 	ImageName    string
 	EnvVariables []corev1.EnvVar
+	ReleaseName  string
 }
 
 func GetMetadata(ctx context.Context, name string, namespace string) PodInfo {
@@ -36,5 +37,6 @@ func GetMetadata(ctx context.Context, name string, namespace string) PodInfo {
 		Status:       pod.Status.Phase,
 		ImageName:    pod.Spec.Containers[0].Image,
 		EnvVariables: pod.Spec.Containers[0].Env,
+		ReleaseName:  pod.Labels["app.kubernetes.io/instance"],
 	}
 }
