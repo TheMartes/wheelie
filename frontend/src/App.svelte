@@ -1,34 +1,34 @@
 <script>
-  import Sidebar from './components/sidebar.svelte'
-  import Overview from './components/pod/sections/overview.svelte';
-  import Topbar from './components/topbar.svelte';
-  import Navigation from './components/pod/navigation.svelte';
-  import Container from './components/pod/container.svelte';
-  import Logs from './components/pod/sections/logs.svelte';
-  import GuidingArrow from './components/utils/window/guiding-arrow.svelte';
-  import { fade } from 'svelte/transition';
-  import Deployment from './components/pod/sections/deployment.svelte';
+  import Sidebar from "./components/sidebar.svelte";
+  import Overview from "./components/pod/sections/overview.svelte";
+  import Topbar from "./components/topbar.svelte";
+  import Navigation from "./components/pod/navigation.svelte";
+  import Container from "./components/pod/container.svelte";
+  import Logs from "./components/pod/sections/logs.svelte";
+  import GuidingArrow from "./components/utils/window/guiding-arrow.svelte";
+  import { fade } from "svelte/transition";
+  import Deployment from "./components/pod/sections/deployment.svelte";
 
   // Global settings
   export let selectedPod;
   export let selectedNamespace;
   export let selectedContext = null;
   export let selectedReleaseName;
-  const views = [Overview, Logs, Deployment]
-  let viewportComponent = null
-  let currentView = 0
+  const views = [Overview, Logs, Deployment];
+  let viewportComponent = null;
+  let currentView = 0;
 
   function updateViewportComponent() {
-      viewportComponent = views[currentView]
+      viewportComponent = views[currentView];
   }
 
-  updateViewportComponent()
+  updateViewportComponent();
 
   const onSwitchContext = (e) => {
-    selectedContext = e.detail.context;
-    selectedNamespace = ""
-    selectedPod = null;
-  }
+      selectedContext = e.detail.context;
+      selectedNamespace = "";
+      selectedPod = null;
+  };
 
   const isMacOS = navigator.userAgent.indexOf("Mac")!== -1;
 </script>
