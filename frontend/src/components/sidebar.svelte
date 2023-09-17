@@ -1,15 +1,15 @@
 <script>
-  import {GetNamespaces, GetPodsFromNamespace} from '../../wailsjs/go/main/App.js'
-  import MenuItem from './utils/menu-item.svelte';
-  import { Circle } from 'svelte-loading-spinners';
-  import { slide } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import {GetNamespaces, GetPodsFromNamespace} from "../../wailsjs/go/main/App.js";
+  import MenuItem from "./utils/menu-item.svelte";
+  import { Circle } from "svelte-loading-spinners";
+  import { slide } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
   const getNamespacesFromBackend = async () => {
-    const namespaces = await GetNamespaces();
+      const namespaces = await GetNamespaces();
 
-    return namespaces.filter(namespace => namespace !== "");
-  }
+      return namespaces.filter(namespace => namespace !== "");
+  };
 
   /** @type {Object<string, MenuItem>} */
   let podMap = {};
@@ -18,63 +18,61 @@
    * @param {string} selectedNamespace
    */
   const getPodsFromBackend = async (selectedNamespace) => {
-    let p = await GetPodsFromNamespace(selectedNamespace);
-    p = p.filter(pod => pod.ShortName !== "" || pod.LongName !== "");
+      let p = await GetPodsFromNamespace(selectedNamespace);
+      p = p.filter(pod => pod.ShortName !== "" || pod.LongName !== "");
 
-	p.forEach(pod => podMap[pod.LongName] = null)
-	return p
-  }
+      p.forEach(pod => podMap[pod.LongName] = null);
+      return p;
+  };
 
   /** @param {string} pod */
   const selectActivePod = (pod, releaseName) => {
-	if (selectedPod !== null) {
-		podMap[selectedPod].$set({active: false})
-	}
+      if (selectedPod !== null) {
+          podMap[selectedPod].$set({active: false});
+      }
 
-	console.log(releaseName)
-
-	selectedPod = pod
-	selectedReleaseName = releaseName
-	podMap[selectedPod].$set({active: true})
-  }
+      selectedPod = pod;
+      selectedReleaseName = releaseName;
+      podMap[selectedPod].$set({active: true});
+  };
 
   /**
    * @type {string|null}
    */
-  export let selectedPod = null
+  export let selectedPod = null;
   export let selectedNamespace = "";
   export let selectedReleaseName = "";
-  $: loadPods(selectedNamespace)
+  $: loadPods(selectedNamespace);
   $: {
-	if (selectedNamespace === "") {
-		pods = null;
-	}
+      if (selectedNamespace === "") {
+          pods = null;
+      }
   }
 
   const loadPods = (selectedNamespace) => {
-	// Reset
-	podMap = {}
-	selectedPod = null
+      // Reset
+      podMap = {};
+      selectedPod = null;
 
-	if (selectedNamespace !== "") {
-		pods = getPodsFromBackend(selectedNamespace)
-	}
-  }
+      if (selectedNamespace !== "") {
+          pods = getPodsFromBackend(selectedNamespace);
+      }
+  };
 
-  let getNamespaces = getNamespacesFromBackend()
+  let getNamespaces = getNamespacesFromBackend();
   let pods;
 </script>
 
-<div transition:slide={{ delay: 250, duration: 300, axis: 'x', easing: quintOut  }} class="sidebar-container">
+<div transition:slide={{ delay: 250, duration: 300, axis: "x", easing: quintOut  }} class="sidebar-container">
   <h2>Namespace</h2>
   {#await getNamespaces}
     Loading...
   {:then namespaces} 
     <select bind:value={selectedNamespace} name="namespace">
-	  <option value="" selected>Please choose a namespace</option>
-      {#each namespaces as namespace}
-      <option value="{namespace.toLowerCase()}">{namespace}</option>
-      {/each}
+        <option value="" selected>Please choose a namespace</option>
+        {#each namespaces as namespace}
+            <option value="{namespace.toLowerCase()}">{namespace}</option>
+        {/each}
     </select>
   {/await}
 
@@ -153,7 +151,6 @@
 		-moz-appearance:none; /* Firefox */
 		-webkit-appearance:none; /* Safari and Chrome */
 		appearance:none;
-		background: url("assets/icons/arrow.svg") no-repeat right white;
 		width: calc(100% - 20px);
 		margin: 0 10px 10px 10px;
 		border-radius: 0;

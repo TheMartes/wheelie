@@ -1,8 +1,8 @@
-import { GetLogsFromPod, GetPodMetadata } from "../../wailsjs/go/main/App"
+import { GetPodMetadata } from "../../wailsjs/go/main/App";
 
 export const getPodMetadata = async (podName, podNamespace) => {
-	return await GetPodMetadata(podName, podNamespace);
-}
+    return await GetPodMetadata(podName, podNamespace);
+};
 
 /**
  * returns array of strings
@@ -10,5 +10,5 @@ export const getPodMetadata = async (podName, podNamespace) => {
  * @returns {Array<string>}
  */
 export const splitLogsByNewline = (logs) => {
-	return logs.split("\n");
-}
+    return logs.split("\n");
+};

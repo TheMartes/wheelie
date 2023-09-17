@@ -7,42 +7,42 @@
   export let pod;
   export let namespace;
   $: {
-    podLogsOriginal = GetLogsFromPod(pod, namespace, Number(podTailLines));
-    podLogsCurrent = GetLogsFromPod(pod, namespace, Number(podTailLines));
+      podLogsOriginal = GetLogsFromPod(pod, namespace, Number(podTailLines));
+      podLogsCurrent = GetLogsFromPod(pod, namespace, Number(podTailLines));
   }
 
-  let searchNeedle
-  $: filterLogs(searchNeedle)
+  let searchNeedle;
+  $: filterLogs(searchNeedle);
 
   const changeTitle = (count) => {
-    if (count === 0) {
-      title = "Logs" 
-    } else if (count === 1) {
-      title = `1 Result`
-    } else {
-      title = `${count} Results`
-    }
-  }
+      if (count === 0) {
+          title = "Logs"; 
+      } else if (count === 1) {
+          title = "1 Result";
+      } else {
+          title = `${count} Results`;
+      }
+  };
 
   const filterLogs = async (searchNeedle) => {
-    if (searchNeedle === undefined || searchNeedle === "") {
-      podLogsCurrent = podLogsOriginal
-      filterCount = 0
-    } else {
-      let splitLogs = splitLogsByNewline(await podLogsCurrent)
-      let filteredLogs = splitLogs.filter((line) => line.includes(searchNeedle)) 
-      filterCount = filteredLogs.length
-      podLogsCurrent = filteredLogs.join("\n")
-    }
-  }
+      if (searchNeedle === undefined || searchNeedle === "") {
+          podLogsCurrent = podLogsOriginal;
+          filterCount = 0;
+      } else {
+          let splitLogs = splitLogsByNewline(await podLogsCurrent);
+          let filteredLogs = splitLogs.filter((line) => line.includes(searchNeedle)); 
+          filterCount = filteredLogs.length;
+          podLogsCurrent = filteredLogs.join("\n");
+      }
+  };
 
-  $: changeTitle(filterCount)
+  $: changeTitle(filterCount);
 
-  let title = "Logs"
-  let filterCount = 0
-  let podLogsCurrent
-  let podLogsOriginal
-  let podTailLines = "100"
+  let title = "Logs";
+  let filterCount = 0;
+  let podLogsCurrent;
+  let podLogsOriginal;
+  let podTailLines = "100";
 </script>
 <div class="logs-container">
   <ContentCard cardTitle={title} cardDescription="" width="100%">
@@ -65,7 +65,7 @@
         <Circle size="60" color="#2E77D0" unit="px" duration="1s" />
         </div>
       {:then logs} 
-        {#if logs === undefined || logs === ''}
+        {#if logs === undefined || logs === ""}
         <div class="bg-message">
           <h2>No logs available.</h2>
         </div>

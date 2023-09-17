@@ -1,17 +1,17 @@
 <script>
   import { Circle } from "svelte-loading-spinners";
   import { GetDeployment } from "../../../../wailsjs/go/main/App";
-  import hljs from 'highlight.js/lib/core';
-  import yaml from 'highlight.js/lib/languages/yaml';
+  import hljs from "highlight.js/lib/core";
+  import yaml from "highlight.js/lib/languages/yaml";
   import ContentCard from "../../utils/content-card.svelte";
-  import Push from "../../utils/icons/push.svelte";
-  import Refresh from "../../utils/icons/refresh.svelte";
-  import Trash from "../../utils/icons/trash.svelte";
+  // import Push from "../../utils/icons/push.svelte";
+  // import Refresh from "../../utils/icons/refresh.svelte";
+  // import Trash from "../../utils/icons/trash.svelte";
 
   /** @type {string} */
-	export let namespace;
+    export let namespace;
   /** @type {string} */
-	export let pod;
+    export let pod;
   let editMode = false;
   /** @type {string} */
   let originalContent;
@@ -20,33 +20,34 @@
   /** @type {boolean} */
   let contentModified = false;
   /** @type {Promise<string>}*/
-  let deployment = GetDeployment(pod, namespace)
+  let deployment = GetDeployment(pod, namespace);
 
-  hljs.registerLanguage('yaml', yaml);
+  hljs.registerLanguage("yaml", yaml);
 
   /** @param {string} output */
   const highlightOutput = (output) => {
-    return hljs.highlight(output,{ language: 'yaml' }).value
-  }
+      return hljs.highlight(output,{ language: "yaml" }).value;
+  };
 
+  // eslint-disable-next-line no-unused-vars
   const enableEditMode = (ogcontent) => {
-    // originalContent = ogcontent
-    // editMode = true
-  }
+      // originalContent = ogcontent
+      // editMode = true
+  };
 
-	const handleKeydown = async (e) => {
-		if (e.keyCode === 27) { // Escape
-          editMode = false;
-		}
-		if (e.keyCode === 13) { // Escape
-          if (ta.value !== originalContent) {
-            contentModified = ta.value !== await deployment;
-          }
+    const handleKeydown = async (e) => {
+        if (e.keyCode === 27) { // Escape
+            editMode = false;
+        }
+        if (e.keyCode === 13) { // Escape
+            if (ta.value !== originalContent) {
+                contentModified = ta.value !== await deployment;
+            }
 
-          originalContent = ta.value
-          editMode = false;
-		}
-	}
+            originalContent = ta.value;
+            editMode = false;
+        }
+    };
 </script>
 <div class="deployment-container">
   <ContentCard cardTitle={editMode ? "Editing Deployment" : "Preview"} cardDescription="" width="100%">
@@ -73,7 +74,7 @@
             <pre on:click={() => enableEditMode(deployment)} ><code class="language-yaml">{@html highlightOutput(deployment)}</code></pre>
           {/if}
           {:else}
-            <textarea bind:this={ta} on:keydown={handleKeydown} rows={originalContent.split('\n').length}>{originalContent}</textarea>
+            <textarea bind:this={ta} on:keydown={handleKeydown} rows={originalContent.split("\n").length}>{originalContent}</textarea>
           {/if}
         </div>
         {/key}
@@ -105,26 +106,26 @@
     font-size: 1rem;
   }
 
-  .divider {
-    width: 10px;
-  }
-  
-  button {
-    background-color: var(--selectmenu-bg);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 5px 10px;
-    border: 1px solid var(--content-card-border);
-    vertical-align: middle;
-  }
 
-  button:disabled {
-    background-color: var(--content-card-border);
-  }
+  /*button {*/
+  /*  background-color: var(--selectmenu-bg);*/
+  /*  color: white;*/
+  /*  border-radius: 5px;*/
+  /*  cursor: pointer;*/
+  /*  font-size: 16px;*/
+  /*  padding: 5px 10px;*/
+  /*  border: 1px solid var(--content-card-border);*/
+  /*  vertical-align: middle;*/
+  /*}*/
 
-  .patch {
-    margin-left: 5px;
-  }
+  /*button:disabled {*/
+  /*  background-color: var(--content-card-border);*/
+  /*}*/
+
+  /*.patch {*/
+  /*  margin-left: 5px;*/
+  /*}*/
+  /*.divider {*/
+  /*  width: 10px;*/
+  /*}*/
 </style>

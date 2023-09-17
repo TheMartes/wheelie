@@ -1,5 +1,4 @@
 <script>
-	
 	export let cardTitle;
 	export let cardDescription;
 	export let width;

@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -7,12 +7,12 @@
   export let status;
   export let podID;
   function setActivePod() {
-	dispatch('switchActivePod', {
-		podID
-	})
+      dispatch("switchActivePod", {
+          podID
+      });
   }
 
-  export let active
+  export let active;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

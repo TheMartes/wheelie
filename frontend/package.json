@@ -11,10 +11,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "eslint": "^8.49.0",
+    "eslint-plugin-svelte": "^2.33.1",
     "svelte": "^3.49.0",
     "svelte-loading-spinners": "^0.3.4",
     "vite": "^3.0.7"
