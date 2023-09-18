@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"io"
+	"log"
+	"os"
 	"wheelie/clientset"
 
 	corev1 "k8s.io/api/core/v1"
@@ -39,4 +41,20 @@ func GetLogs(ctx context.Context, podName string, podNamespace string, tl int) s
 	str := buf.String()
 
 	return str
+}
+
+func SaveLogsFromPod(logs string) {
+	f, err := os.Create("logs.txt")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	_, err = f.WriteString(logs)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }

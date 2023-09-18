@@ -2,6 +2,7 @@ package cluster
 
 import (
 	"context"
+	"log"
 	"wheelie/clientset"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -14,7 +15,7 @@ func GetNamespaces(ctx context.Context) ClusterNamespaces {
 	namespaces, err := clientset.CoreV1().Namespaces().List(ctx, metav1.ListOptions{})
 
 	if err != nil {
-		panic(err.Error())
+		log.Print(err.Error())
 	}
 
 	prettyNamespaces := make([]string, len(namespaces.Items))

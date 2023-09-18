@@ -1,6 +1,7 @@
 package kubernetesconfig
 
 import (
+	"log"
 	"os"
 	"path"
 
@@ -15,7 +16,7 @@ type KubeContexts []string
 func getKubeConfig() string {
 	userHomeDirPath, err := os.UserHomeDir()
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 
 	return path.Join(userHomeDirPath, KUBE_CONFIG)
@@ -30,7 +31,7 @@ func GetConfig(ctx string) *rest.Config {
 		}).ClientConfig()
 
 	if err != nil {
-		panic(err.Error())
+		log.Print(err.Error())
 	}
 
 	return config
@@ -45,7 +46,7 @@ func GetKubeContexts() KubeContexts {
 		}).RawConfig()
 
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 
 	kctx := make(KubeContexts, len(config.Contexts))

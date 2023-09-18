@@ -3,6 +3,7 @@ package pod
 import (
 	"context"
 	"fmt"
+	"log"
 	"wheelie/clientset"
 
 	v1 "k8s.io/api/core/v1"
@@ -22,7 +23,7 @@ func GetPods(ctx context.Context, namespace string) []PodListMetadata {
 
 	pods, err := clientset.CoreV1().Pods(namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
 
 	formattedPods := make([]PodListMetadata, len(pods.Items))
