@@ -30,6 +30,7 @@
         ],
         "no-unused-expressions": "error",
         "no-unused-vars": "error",
-        "svelte/no-at-html-tags": "warn"
+        "svelte/no-at-html-tags": "warn",
+        "no-console": "warn"
     }
 }

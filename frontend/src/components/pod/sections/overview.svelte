@@ -5,13 +5,15 @@
     import ContentCard from "../../utils/content-card.svelte";
     import Lock from "../../utils/icons/lock.svelte";
     import Refresh from "../../utils/icons/refresh.svelte";
+    import { onDestroy } from "svelte";
 
     export let namespace;
     export let pod;
 
     /** @type {HTMLInputElement} */
     let copyImageNameButton;
-    let refreshRate;
+    /** @type {Number} */
+    let refreshRate = 5000;
     let podInfo;
     $: {
         podInfo = getPodMetadata(pod, namespace);
@@ -20,7 +22,7 @@
     /**
      * @param {string} value
      */
-	// eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     const copyToClipboard = (value) => {
         navigator.clipboard.writeText(value);
         copyImageNameButton.value = "Copied! ❤️";
@@ -29,6 +31,14 @@
             copyImageNameButton.value = "copy image name";
         }, 5000);
     };
+
+    let interval = setInterval(async () => {
+        podInfo = await getPodMetadata(pod, namespace);
+    }, refreshRate);    
+
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 <div class="pod-info-container">
     {#await podInfo}
@@ -45,7 +55,7 @@
             <div slot="toolbar" class="pod-info">
                 <div class="refresh-rate-container">
                     <Refresh fill="#000000"></Refresh>
-                    <select bind:this={refreshRate} name="refreshRate">
+                    <select bind:value={refreshRate} name="refreshRate">
                         <option value="5000" selected>5 seconds</option>
                         <option value="30000">30 seconds</option>
                         <option value="60000">1 minute</option>

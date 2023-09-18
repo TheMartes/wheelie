@@ -102,7 +102,6 @@
         on:mouseenter={() => removeSelectedElement()}
         on:mouseleave={() => addSelectedElement(filteredElements)}
     >
-        <!-- svelte-ignore a11y-autofocus -->
         <input
             spellcheck="false"
             bind:this={input}
