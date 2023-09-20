@@ -1,4 +1,4 @@
-name: Build frontend
+name: Eslint
 on: push
 jobs:
   build:
