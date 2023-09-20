@@ -1,0 +1,61 @@
+name: Build and Publish Wheelie
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.21'
+
+      - name: Install Wails CLI
+        run: |
+          go get github.com/wailsapp/wails/cmd/wails@latest
+          go install github.com/wailsapp/wails/cmd/wails@latest
+
+      - name: Build Wails.io App
+        run: |
+          wails build -platform=darwin/universal,windows,linux/amd64
+        env:
+          WAILS_BUILD_TARGET: desktop
+
+      - name: List Executable Files
+        id: list_executables
+        run: |
+          find . -type f -executable -not -name "*.*" > executables.txt
+        shell: bash
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./executables.txt
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        id: upload-release-assets
+        run: |
+          while IFS= read -r file; do
+            echo "Uploading $file..."
+            echo "::set-output name=asset_path::$file"
+          done < executables.txt
+        shell: bash
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.upload-release-assets.outputs.asset_path }}
+          asset_name: ${{ github.event.head_commit.id }}-$(basename ${{ steps.upload-release-assets.outputs.asset_path }})
+          asset_content_type: application/octet-stream
