@@ -89,4 +89,4 @@ jobs:
       env:
         GITHUB_RELEASE_NAME: Release ${{ github.ref_name }}
         GITHUB_RELEASE_TAG: ${{ github.ref_name }}
-        GITHUB_RELEASE_BODY: ${{ steps.changelog.outputs.stdout }}
+        GITHUB_RELEASE_BODY: ${{ steps.changelog.outputs.changelog }}
