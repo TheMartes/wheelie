@@ -1,0 +1,127 @@
+@font-face {
+    font-family: "Indie Flower";
+    src: local(""),
+    url("assets/fonts/IndieFlower.ttf");
+}
+:root {
+    --main-bg-color: #F9F9F9;
+    --text-bg-color: #181818;
+
+    --sidebar-bg: #181818;
+    --sidebar-text: #BDBDBD;
+    --sidebar-text-active: #FFFFFF;
+    --sidebar-row-active: #9BF0E1;
+    --sidebar-heading: #7DF3E1;
+    --sidebar-divider: #404040;
+
+    --pod-navigation-bg: #FFFFFF;
+    --pod-navigation-text: #616161;
+    --pod-nagivation-text-selected: #181818;
+    --pod-navigation-column-active: #016451;
+
+    --content-card-bg: #FFFFFF;
+    --content-card-text: #181818;
+    --content-card-border: #D9D9D9;
+    --content-card-description: #616161;
+    --content-card-prop-heading: rgba(0, 0, 0, 0.35);
+    --content-card-prop-value: #000000;
+
+    --status-success: #1DB954;
+    --status-success-pulse: #8ddca9;
+    --status-pending: #FF9800;
+    --status-failed: #E22134;
+
+    --header-size: 36px;
+    --selectmenu-bg: #2E77D0;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--main-bg-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#app {
+    height: 100vh;
+}
+
+.break-line {
+    height: 1px;
+    width: 100%;
+    background-color: var(--hover-color);
+    margin: 5px 0;
+}
+select {
+    appearance: none;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--selectmenu-bg);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid var(--content-card-border);
+}
+
+.bg-message {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-message h2 {
+    font-weight: 100;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    opacity: 50%;
+    color: var(--text-bg-color)
+}
+
+.content-loading {
+    font-weight: 700;
+    margin-top: 20px;
+    font-size: 20px;
+    color: var(--text-bg-color)
+}
+
+.green-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: var(--status-success);
+}
+
+.animate-green-indicator {
+    animation: green-indicator-pulse 1s infinite alternate;
+}
+
+@keyframes green-indicator-pulse {
+    from {
+        background-color: var(--status-success);
+    }
+    to {
+        background-color: var(--status-success-pulse);
+    }
+}
+j
+.orange-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: var(--status-success);
+}
+
+.red-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: var(--status-success);
+}

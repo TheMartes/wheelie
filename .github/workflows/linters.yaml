@@ -1,0 +1,13 @@
+name: Linters
+on: push
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install modules
+      working-directory: ./frontend
+      run: npm install
+    - name: Run ESLint
+      working-directory: ./frontend
+      run: npm run lint
