@@ -1,0 +1,92 @@
+name: Publish
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - uses: dAppServer/wails-build-action@v2.2
+        with:
+          build-name: Wheelie
+          build-platform: windows/amd64
+      - uses: actions/upload-artifact@master
+        with:
+          name: wheelie-windows
+          path: build/bin
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - uses: dAppServer/wails-build-action@v2.2
+        with:
+          build-name: Wheelie
+          build-platform: linux/amd64
+      - uses: actions/upload-artifact@master
+        with:
+          name: wheelie-linux
+          path: build/bin
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - uses: dAppServer/wails-build-action@v2.2
+        with:
+          build-name: Wheelie
+          build-platform: darwin/universal
+      - uses: actions/upload-artifact@master
+        with:
+          name: wheelie-macos
+          path: build/bin
+
+  upload-assets:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Create release folder
+      run: mkdir -p release
+
+    - uses: actions/download-artifact@master
+      name: "Download windows binaries"
+      with:
+        name: wheelie-windows
+        path: release
+
+    - uses: actions/download-artifact@master
+      name: "Download macos binaries"
+      with:
+        name: wheelie-macos
+        path: release
+
+    - uses: actions/download-artifact@master
+      name: "Download linux binaries"
+      with:
+        name: wheelie-linux
+        path: release
+
+    - name: "✏️ Generate release changelog"
+      uses: heinrichreimer/action-github-changelog-generator@v2.3
+      id: changelog
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_RELEASE_NAME: Release ${{ github.ref_name }}
+        GITHUB_RELEASE_TAG: ${{ github.ref_name }}
+        GITHUB_RELEASE_BODY: ${{ steps.changelog.outputs.stdout }}
