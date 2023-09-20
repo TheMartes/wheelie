@@ -34,7 +34,7 @@
 
     let interval = setInterval(async () => {
         podInfo = await getPodMetadata(pod, namespace);
-    }, refreshRate);    
+    }, refreshRate);
 
     onDestroy(() => {
         clearInterval(interval);

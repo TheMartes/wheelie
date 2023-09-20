@@ -1,9 +1,10 @@
 <script>
   import {GetNamespaces, GetPodsFromNamespace} from "../../wailsjs/go/main/App.js";
   import MenuItem from "./utils/menu-item.svelte";
-  import { Circle } from "svelte-loading-spinners";
+  import { BarLoader } from "svelte-loading-spinners";
   import { slide } from "svelte/transition";
   import { quintOut } from "svelte/easing";
+  import { onDestroy } from "svelte";
 
   const getNamespacesFromBackend = async () => {
       const namespaces = await GetNamespaces();
@@ -14,7 +15,7 @@
   /** @type {Object<string, MenuItem>} */
   let podMap = {};
 
-  /** 
+  /**
    * @param {string} selectedNamespace
    */
   const getPodsFromBackend = async (selectedNamespace) => {
@@ -42,32 +43,45 @@
   export let selectedPod = null;
   export let selectedNamespace = "";
   export let selectedReleaseName = "";
-  $: loadPods(selectedNamespace);
+  $: loadPods(selectedNamespace, true);
   $: {
       if (selectedNamespace === "") {
           pods = null;
       }
   }
 
-  const loadPods = (selectedNamespace) => {
+  const loadPods = async (sn, resetPod = false) => {
       // Reset
       podMap = {};
-      selectedPod = null;
 
-      if (selectedNamespace !== "") {
-          pods = getPodsFromBackend(selectedNamespace);
+      if (resetPod) {
+        selectedPod = null;
+      }
+
+      if (sn !== "") {
+          pods = await getPodsFromBackend(sn);
       }
   };
 
   let getNamespaces = getNamespacesFromBackend();
   let pods;
+
+  let interval = setInterval(async () => {
+    await loadPods(selectedNamespace)
+  }, 5000);
+
+  onDestroy(() => {
+      clearInterval(interval);
+  });
 </script>
 
 <div transition:slide={{ delay: 250, duration: 300, axis: "x", easing: quintOut  }} class="sidebar-container">
   <h2>Namespace</h2>
   {#await getNamespaces}
-    Loading...
-  {:then namespaces} 
+    <div class="bg-message">
+      {#await pods}<BarLoader size="20" color="#7DF3E1" unit="px" duration="1s" />{/await}
+    </div>
+  {:then namespaces}
     <select bind:value={selectedNamespace} name="namespace">
         <option value="" selected>Please choose a namespace</option>
         {#each namespaces as namespace}
@@ -79,14 +93,10 @@
   <div class="break-line"></div>
   <div class="pods-wrapper">
   <h3>Pods</h3>
-  {#await pods}
-		<div class="bg-message">
-			<Circle size="60" color="#7DF3E1" unit="px" duration="1s" />
-		</div>
-  {:then pods}
+  {#await pods then pods}
 	{#if pods}
       {#each pods as pod}
-		<MenuItem 
+		<MenuItem
 			bind:this={podMap[pod.LongName]}
 			active={false}
 			text={pod.ShortName}
@@ -111,7 +121,7 @@
 		overflow: auto;
 		background-color: var(--sidebar-bg);
 		color: var(--main-bg-color);
-	}	
+	}
 
 	.sidebar-container > h2 {
 		margin: 10px 0 10px 10px;

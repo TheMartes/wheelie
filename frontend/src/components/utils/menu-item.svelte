@@ -18,6 +18,8 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="pod" class:active={active} id={podID} on:click={setActivePod}>
 	{#if status === "Running"} <div class="green-indicator"></div> {/if}
+	{#if status === "Pending"} <div class="orange-indicator"></div> {/if}
+	{#if status === "Failed"} <div class="red-indicator"></div> {/if}
 	<div class="pod-text">{text}</div>
 </div>
 
@@ -38,7 +40,7 @@
 		cursor: pointer;
 		border-left: 3px solid rgb(0, 0, 0, 0);
 	}
-	
+
 	.pod-text:hover {
 		color: var(--sidebar-text-active);
 	}

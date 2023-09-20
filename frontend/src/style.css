@@ -28,6 +28,8 @@
 
     --status-success: #1DB954;
     --status-success-pulse: #8ddca9;
+    --status-pending: #FF9800;
+    --status-failed: #E22134;
 
     --header-size: 36px;
     --selectmenu-bg: #2E77D0;
@@ -106,4 +108,20 @@ select {
     to {
         background-color: var(--status-success-pulse);
     }
+}
+j
+.orange-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: var(--status-success);
+}
+
+.red-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: var(--status-success);
 }
