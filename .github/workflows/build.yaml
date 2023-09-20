@@ -22,6 +22,8 @@ jobs:
           {name: Wheelie, platform: darwin/universal, os: macos-latest}
         ]
     runs-on: ${{ matrix.build.os }}
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2
         with:
