@@ -23,7 +23,7 @@ jobs:
           go get github.com/wailsapp/wails/cmd/wails@latest
           go install github.com/wailsapp/wails/cmd/wails@latest
 
-      - name: Build Wails.io App
+      - name: Build Wheelie
         run: |
           wails build -platform=darwin/universal,windows,linux/amd64
         env:

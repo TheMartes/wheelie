@@ -13,7 +13,14 @@ jobs:
           go-version: '1.21.x'
       - name: Install dependencies
         run: go get .
-      - name: Build
-        run: go build -v ./...
+
+      - name: Install Wails CLI
+        run: |
+          go get github.com/wailsapp/wails/cmd/wails@latest
+          go install github.com/wailsapp/wails/cmd/wails@latest
+
+      - name: Build Wheelie
+        run: wails build
+
       - name: Test with the Go CLI
         run: go test

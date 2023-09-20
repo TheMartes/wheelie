@@ -55,7 +55,7 @@
       podMap = {};
 
       if (resetPod) {
-        selectedPod = null;
+          selectedPod = null;
       }
 
       if (sn !== "") {
@@ -67,7 +67,7 @@
   let pods;
 
   let interval = setInterval(async () => {
-    await loadPods(selectedNamespace)
+      await loadPods(selectedNamespace);
   }, 5000);
 
   onDestroy(() => {
