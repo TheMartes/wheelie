@@ -41,7 +41,7 @@ jobs:
         with:
           files: |
             ./executables.txt
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WHEELIE_ACTIONS_TOKEN }}
 
       - name: Upload Release Assets
         id: upload-release-assets
